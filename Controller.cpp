@@ -102,12 +102,66 @@ Controller::Controller(std::string filePath)
 
 ReturnStruct Controller::encrypt(const unsigned char* array, int size)
 {
+    try
+    {
+        ReturnStruct rs;
 
+        unsigned char* arr = new unsigned char[size];
+
+        for (int i = 0; i < size; i++)
+        {
+            arr[i] = array[i];
+        }
+
+        printArray(arr, size);
+
+        for (int i = 0; i < numBabushkas; i++)
+        {
+            rs = expandArray(arr, size, babushkaArr[i]->getID(), babushkaArr[i]->getIdLength());
+
+            babushkaArr[i]->encrypt(rs.returnArray, rs.arraySize);
+
+            printArray(rs.returnArray, rs.arraySize);
+        }
+        
+        return rs;
+    }
+    catch(BabushkaException& b)
+    {
+        throw ControllerException(b, "encrypt exception");
+    }
 }
 
 ReturnStruct Controller::decrypt(const unsigned char* array, int size)
 {
+    try
+    {
+        ReturnStruct rs;
 
+        unsigned char* arr = new unsigned char[size];
+
+        for (int i = 0; i < size; i++)
+        {
+            arr[i] = array[i];
+        }
+
+        printArray(arr, size);
+
+        for (int i = 0; i < numBabushkas; i++)
+        {
+            rs = reduceArray(arr, size, babushkaArr[i]->getID(), babushkaArr[i]->getIdLength());
+
+            babushkaArr[i]->decrypt(rs.returnArray, rs.arraySize);
+
+            printArray(rs.returnArray, rs.arraySize);
+        }
+        
+        return rs;
+    }
+    catch(BabushkaException& b)
+    {
+        throw ControllerException(b, "decrypt exception");
+    }
 }
 
 ReturnStruct Controller::expandArray(unsigned char* array, int currentSize, const unsigned char* id, int idSize)

@@ -2,5 +2,5 @@
 
 void DisplacementException::printMessage()
 {
-
+    std::cout<< "displacement exception occured" <<std::endl;
 }

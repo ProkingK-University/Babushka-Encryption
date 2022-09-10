@@ -2,5 +2,5 @@
 
 void UnderflowException::printMessage()
 {
-
+    std::cout<< "underflow exception occured" <<std::endl;
 }

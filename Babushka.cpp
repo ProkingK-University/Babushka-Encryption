@@ -1,15 +1,9 @@
 #include "Babushka.h"
 
-Babushka::Babushka(const unsigned char* id)
-{
+Babushka::Babushka(const unsigned char* id) : id(id) {}
 
-}
+const int Babushka::getIdLength() { return ID_LENGTH;}
 
-const int Babushka::getIdLength() {}
+const unsigned char* Babushka::getID() {return id;}
 
-const unsigned char* Babushka::getID() {}
-
-Babushka::~Babushka()
-{
-
-}
+Babushka::~Babushka() {delete [] id;}

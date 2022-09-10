@@ -11,6 +11,8 @@
 #include "RedBabushka.h"
 #include "YellowBabushka.h"
 
+#include "ControllerException.h"
+
 Controller::Controller(std::string filePath)
 {
     int i = 0;
@@ -110,20 +112,102 @@ ReturnStruct Controller::decrypt(const unsigned char* array, int size)
 
 ReturnStruct Controller::expandArray(unsigned char* array, int currentSize, const unsigned char* id, int idSize)
 {
+    int j = 0;
 
+    unsigned char* arr = new unsigned char[(2*idSize)+currentSize];
+
+    for (int i = 0; i < idSize; i++)
+    {
+        arr[i] = id[i];
+    }
+
+    for (int i = idSize; i < idSize+currentSize; i++)
+    {
+        arr[i] = array[j];
+        j++;
+    }
+
+    j = 0;
+
+    for (int i = idSize+currentSize; i < (2*idSize)+currentSize; i++)
+    {
+        arr[i] = id[j];
+        j++;
+    }
+
+    delete [] array;
+
+    ReturnStruct rs;
+    rs.arraySize = (2*idSize)+currentSize;
+    rs.returnArray = arr;
+
+    return rs;
 }
 
 ReturnStruct Controller::reduceArray(unsigned char* array, int currentSize, const unsigned char* expectedId, int idSize)
 {
+    int size = currentSize-(2*idSize);
 
+    if(size < 0)
+    {
+        throw ControllerException("size exception");
+    }
+    else
+    {
+        unsigned char* arr = new unsigned char[size];
+
+        for (int i = 0; i < idSize; i++)
+        {
+            if (array[i] != expectedId[i] || array[i+idSize+size] != expectedId[i])
+            {
+                throw ControllerException("id mismatch exception");
+            }
+            else
+            {
+                for (int i = 0; i < size; i++)
+                {
+                    arr[i] = array[i+idSize];
+                }
+            }
+        }
+
+        delete [] array;
+
+        ReturnStruct rs;
+        rs.arraySize = size;
+        rs.returnArray = arr;
+
+        return rs;
+    }
 }
 
 void Controller::printArray(unsigned char* array, int size)
 {
-
+    for (int i = 0; i < size; i++)
+    {
+        if(i == 0)
+        {
+            std::cout<< "[" <<array[i]-48 << ",";
+        }
+        else if ( i == size-1)
+        {
+            std::cout<< array[i]-48 << "]" <<std::endl;
+        }
+        else
+        {
+            std::cout<<array[i]-48 << ",";
+        }
+    }
 }
 
 Controller::~Controller()
 {
+    for (int i = 0; i < numBabushkas; i++)
+    {
+        delete babushkaArr[i];
+        babushkaArr[i] = NULL;
+    }
 
+    delete [] babushkaArr;
+    babushkaArr = NULL;
 }

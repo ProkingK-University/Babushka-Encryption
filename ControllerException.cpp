@@ -17,6 +17,8 @@ void ControllerException::printMessage()
     if (hasBabushka)
     {
         babushkaException->printMessage();
+        
+        std::cout<< customMessage <<std::endl;
     }
     else
     {

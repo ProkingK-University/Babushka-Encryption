@@ -21,7 +21,7 @@ Controller::Controller(std::string filePath)
     std::string text;
     std::string darkBlueId;
     std::string db;
-    std::string lightkBlueId;
+    std::string lightBlueId;
     std::string lb;
     std::string goldId;
     std::string g;
@@ -60,16 +60,26 @@ Controller::Controller(std::string filePath)
             getline(ss, darkBlueId, ':');
             getline(ss, db, ':');
 
-            unsigned char* t = (unsigned char*) darkBlueId.c_str(); 
+            unsigned char* t = new unsigned char[10];
+
+            for (int i = 0; i < 10; i++)
+            {
+                t[i] = darkBlueId[i];
+            } 
 
             babushkaArr[i] = new DarkBlueBabushka(t, stoi(db));
         }
         else if (text == "lightblue")
         {
-            getline(ss, lightkBlueId, ':');
+            getline(ss, lightBlueId, ':');
             getline(ss, lb, ':');
 
-            unsigned char* t = (unsigned char*) lightkBlueId.c_str();    
+            unsigned char* t = new unsigned char[10];
+
+            for (int i = 0; i < 10; i++)
+            {
+                t[i] = lightBlueId[i];
+            }    
 
             babushkaArr[i] = new LightBlueBabushka(t, stoi(lb));
         }
@@ -78,7 +88,12 @@ Controller::Controller(std::string filePath)
             getline(ss, goldId, ':');
             getline(ss, g, ':');
 
-            unsigned char* t = (unsigned char*) goldId.c_str();    
+            unsigned char* t = new unsigned char[10];
+
+            for (int i = 0; i < 10; i++)
+            {
+                t[i] = goldId[i];
+            }    
 
             babushkaArr[i] = new GoldBabushka(t, *g.c_str());
         }
@@ -87,7 +102,12 @@ Controller::Controller(std::string filePath)
             getline(ss, greenId, ':');
             getline(ss, gr, ':');
 
-            unsigned char* t = (unsigned char*) greenId.c_str();
+            unsigned char* t = new unsigned char[10];
+
+            for (int i = 0; i < 10; i++)
+            {
+                t[i] = greenId[i];
+            }
 
             babushkaArr[i] = new GreenBabushka(t, stoi(gr));
         }
@@ -96,7 +116,12 @@ Controller::Controller(std::string filePath)
             getline(ss, redId, ':');
             getline(ss, r, ':');
 
-            unsigned char* t = (unsigned char*) redId.c_str();    
+            unsigned char* t = new unsigned char[10];
+
+            for (int i = 0; i < 10; i++)
+            {
+                t[i] = redId[i];
+            }    
 
             babushkaArr[i] = new RedBabushka(t, stoi(r));
         }
@@ -104,12 +129,15 @@ Controller::Controller(std::string filePath)
         {
             getline(ss, yellowId, ':');
 
-            unsigned char* t = (unsigned char*) yellowId.c_str();    
+            unsigned char* t = new unsigned char[10];
+
+            for (int i = 0; i < 10; i++)
+            {
+                t[i] = yellowId[i];
+            }
 
             babushkaArr[i] = new YellowBabushka(t);
         }
-
-        //std::cout<< babushkaArr[i]->getID() <<std::endl;
 
         i++;
     }
@@ -168,11 +196,11 @@ ReturnStruct Controller::decrypt(const unsigned char* array, int size)
         rs.arraySize = size;
         rs.returnArray = arr;
 
-        for (int i = 0; i < numBabushkas; i++)
+        for (int i = numBabushkas-1; i >= 0; i--)
         {
-            rs = reduceArray(rs.returnArray, rs.arraySize, babushkaArr[i]->getID(), babushkaArr[i]->getIdLength());
-
             babushkaArr[i]->decrypt(rs.returnArray, rs.arraySize);
+            
+            rs = reduceArray(rs.returnArray, rs.arraySize, babushkaArr[i]->getID(), babushkaArr[i]->getIdLength()); 
 
             printArray(rs.returnArray, rs.arraySize);
         }

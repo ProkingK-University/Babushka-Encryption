@@ -14,7 +14,7 @@ void GreenBabushka::encrypt(unsigned char* data, int size)
     {
         for (int i = 0; i < size; i++)
         {
-            if (i+displacement < size)
+            if (i+displacement < size-1)
             {
                 unsigned char temp = data[i];
                 data[i] = data[i+displacement+1];
@@ -36,7 +36,7 @@ void GreenBabushka::decrypt(unsigned char* data, int size)
     {
         for (int i = 0; i < size; i++)
         {
-            if (i+displacement < size)
+            if (i+displacement < size-1)
             {
                 unsigned char temp = data[i];
                 data[i] = data[i+displacement+1];

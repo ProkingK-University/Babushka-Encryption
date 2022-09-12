@@ -38,6 +38,7 @@ Controller::Controller(std::string filePath)
         std::cout<< "File failed to open" <<std::endl;
     }
 
+    //Gets number of babushkas
     getline(file, line);
 
     std::stringstream ss(line);
@@ -49,6 +50,7 @@ Controller::Controller(std::string filePath)
 
     babushkaArr = new Babushka*[numBabushkas];
 
+    //Populates the babushka array
     while (getline(file, line))
     {
         std::stringstream ss(line);
@@ -143,6 +145,7 @@ Controller::Controller(std::string filePath)
     }
 }
 
+//Encrypts the message
 ReturnStruct Controller::encrypt(const unsigned char* array, int size)
 {
     try
@@ -178,6 +181,7 @@ ReturnStruct Controller::encrypt(const unsigned char* array, int size)
     }
 }
 
+//Decrypts the messages
 ReturnStruct Controller::decrypt(const unsigned char* array, int size)
 {
     try
@@ -213,6 +217,7 @@ ReturnStruct Controller::decrypt(const unsigned char* array, int size)
     }
 }
 
+//Adds ID to the front and back
 ReturnStruct Controller::expandArray(unsigned char* array, int currentSize, const unsigned char* id, int idSize)
 {
     int j = 0;
@@ -247,6 +252,7 @@ ReturnStruct Controller::expandArray(unsigned char* array, int currentSize, cons
     return rs;
 }
 
+//Removes ID from the ends
 ReturnStruct Controller::reduceArray(unsigned char* array, int currentSize, const unsigned char* expectedId, int idSize)
 {
     int size = currentSize-(2*idSize);

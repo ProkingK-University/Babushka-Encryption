@@ -320,3 +320,5 @@ Controller::~Controller()
     delete [] babushkaArr;
     babushkaArr = NULL;
 }
+
+// ;)

@@ -16,7 +16,7 @@ int main(){
         arr[i] = plainText[i]; // don't copy null termination
     }
 
-    Controller * c = new Controller("schema.txt");
+    Controller * c = new Controller("encryption_key.txt");
     try{ 
         cout << "Beginning encryption:" <<endl; 
         ReturnStruct cipherReturn = c->encrypt(arr, plainTextLength);
